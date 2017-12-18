@@ -19,6 +19,21 @@ Install
 
     npm install sipster
 
+Install (From source)
+=======
+    $ cd ~centos/src/pjproject-2.7
+    $ ./configure --enable-shared
+    $ make dep
+    $ make
+    $ make install # outputs: /usr/local/lib/pkgconfig/libpjproject.pc
+    $ export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+    $ node-gyp configure
+    $ node-gyp build
+
+    (Test )
+    $ cd build/Release
+    $ node
+    > var sipster = require('./sipster.node');
 
 Examples
 ========
