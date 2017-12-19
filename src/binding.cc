@@ -386,7 +386,7 @@ void logging_cb(uv_async_t* handle) {
 
     logger->func->Call(4, log_argv);
   }
-}
+};
 // =============================================================================
 
 // static methods ==============================================================
@@ -414,8 +414,9 @@ static NAN_METHOD(CreateRecorder) {
       if (size >= -1)
         max_size = size;
     }
-  } else
+  } else {
     return Nan::ThrowTypeError("Missing destination filename");
+  }
 
   AudioMediaRecorder* recorder = new AudioMediaRecorder();
   try {
@@ -435,7 +436,7 @@ static NAN_METHOD(CreateRecorder) {
   med->is_media_new = true;
 
   info.GetReturnValue().Set(med_obj);
-}
+};
 
 static NAN_METHOD(CreatePlayer) {
   Nan::HandleScope scope;
@@ -686,7 +687,7 @@ static NAN_METHOD(EPInit) {
 
   uv_async_init(uv_default_loop(), &dumb, static_cast<uv_async_cb>(dumb_cb));
 
-  Endpoint::instance().audDevManager().setNullDev();
+  Endpoint::instance().audDevManager().setNullDev(); ///
 
   if ((info.Length() == 1 && info[0]->IsBoolean() && info[0]->BooleanValue())
       || (info.Length() > 1

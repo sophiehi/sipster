@@ -237,7 +237,7 @@ NAN_METHOD(SIPSTERCall::Transfer) {
   }
 
   info.GetReturnValue().SetUndefined();
-}
+};
 
 NAN_METHOD(SIPSTERCall::DoRef) {
   Nan::HandleScope scope;

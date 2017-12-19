@@ -1,7 +1,11 @@
+#include <iostream>
+#include <fstream>
 #include "SIPSTERAccount.h"
 #include "SIPSTERCall.h"
 #include "SIPSTERTransport.h"
 #include "common.h"
+
+using namespace std;
 
 Nan::Persistent<FunctionTemplate> SIPSTERAccount_constructor;
 
@@ -578,10 +582,11 @@ NAN_METHOD(SIPSTERAccount::SetTransport) {
   }
 
   info.GetReturnValue().SetUndefined();
-}
+};
 
 NAN_METHOD(SIPSTERAccount::MakeCall) {
   Nan::HandleScope scope;
+  SIPSTERAccount* acct = Nan::ObjectWrap::Unwrap<SIPSTERAccount>(info.This());
 
   string dest;
   CallOpParam prm;
@@ -598,7 +603,16 @@ NAN_METHOD(SIPSTERAccount::MakeCall) {
   } else
     return Nan::ThrowTypeError("Missing call destination");
 
+  // Sophie
+  ofstream myfile;
+  myfile.open ("cpp_log.txt");
+  myfile << "sophie0:::" << '\n';
+  myfile << typeid(info).name() << '\n';
+  myfile << typeid(info.This()).name() << '\n';
+  myfile.close();
+
   Handle<Value> new_call_args[1] = { info.This() };
+  // TODO test
   Local<Object> call_obj =
     Nan::New(SIPSTERCall_constructor)->GetFunction()
                                      ->NewInstance(1, new_call_args);
@@ -606,13 +620,13 @@ NAN_METHOD(SIPSTERAccount::MakeCall) {
 
   try {
     call->makeCall(dest, prm);
-  } catch(Error& err) {
+  } catch (Error& err) {
     string errstr = "Call.makeCall() error: " + err.info();
     return Nan::ThrowError(errstr.c_str());
-  }
+  };
 
   info.GetReturnValue().Set(call_obj);
-}
+};
 
 NAN_METHOD(SIPSTERAccount::DoRef) {
   Nan::HandleScope scope;
